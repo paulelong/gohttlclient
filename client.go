@@ -7,24 +7,31 @@ import (
 	"log"
 	"net/http"
 	"time"
+	//"math/rand"
 )
 
 func main() {
 
-	url := "http://localhost:8090/v1/teachers"
+	// url := "http://AZSDL-WL5CG9036P64:8090/v1/teachers"
+	url := "http://ptsv2.com/t/paulelong/post"
 
+	// buf := make([]byte, 262143, 2000000)
+	buf := make([]byte, 200, 2000000)
 
-	d := bytes.NewBuffer((make([]byte, 1000000, 1000000)))
+	for i := range buf {
+		buf[i] = byte(i) //byte(rand.Intn(244))
+	}
 
-	req, err := http.NewRequest("POST", url, d)
-	// req, err := http.NewRequest("POST", url, b)
+	//d := bytes.NewBuffer(buf)
+	reader := bytes.NewReader(buf)
+
+	req, err := http.NewRequest("POST", url, reader)
 	if err != nil {
 		log.Fatal("Error reading request. ", err)
 	}
 
 	// Set headers
 	req.Header.Set("Content-Type", "application/octet-stream")
-	// req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Host", "httpbin.org")
 
 	// Create and Add cookie to request
@@ -32,7 +39,7 @@ func main() {
 	req.AddCookie(&cookie)
 
 	// Set client timeout
-	client := &http.Client{Timeout: time.Second * 10}
+	client := &http.Client{Timeout: time.Second * 100}
 
 	// Validate cookie and headers are attached
 	fmt.Println(req.Cookies())
