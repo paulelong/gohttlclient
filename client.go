@@ -13,17 +13,25 @@ import (
 func main() {
 
 	// url := "http://AZSDL-WL5CG9036P64:8090/v1/teachers"
-	url := "http://ptsv2.com/t/paulelong/post"
+	//url := "http://ptsv2.com/t/paulelong/post"
+
 
 	// buf := make([]byte, 262143, 2000000)
-	buf := make([]byte, 200, 2000000)
+	buf := make([]byte, 8000000, 8000000)
 
 	for i := range buf {
 		buf[i] = byte(i) //byte(rand.Intn(244))
 	}
 
-	//d := bytes.NewBuffer(buf)
-	reader := bytes.NewReader(buf)
+	for j := 0; j <= 24; j++ {
+		SendReq(buf)
+	}
+}
+
+func SendReq(data []byte) {
+	url := "http://b4f19a2a78edbf40d68269381026cf4d.m.pipedream.net"
+	
+	reader := bytes.NewReader(data)
 
 	req, err := http.NewRequest("POST", url, reader)
 	if err != nil {
@@ -32,11 +40,7 @@ func main() {
 
 	// Set headers
 	req.Header.Set("Content-Type", "application/octet-stream")
-	req.Header.Set("Host", "httpbin.org")
-
-	// Create and Add cookie to request
-	cookie := http.Cookie{Name: "cookie_name", Value: "cookie_value"}
-	req.AddCookie(&cookie)
+	req.Header.Set("Host", "ptsv2.com")
 
 	// Set client timeout
 	client := &http.Client{Timeout: time.Second * 100}
