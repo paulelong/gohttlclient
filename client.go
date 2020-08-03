@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	//"io/ioutil"
 	"log"
 	"net/http"
 	"time"
@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	fmt.Println("************** Starting *****************")
 
 	// url := "http://AZSDL-WL5CG9036P64:8090/v1/teachers"
 	//url := "http://ptsv2.com/t/paulelong/post"
@@ -24,12 +25,15 @@ func main() {
 	}
 
 	for j := 0; j <= 24; j++ {
+		fmt.Println("Sending block ", j)
 		SendReq(buf)
+		fmt.Println("Sent block ", j)
 	}
 }
 
 func SendReq(data []byte) {
-	url := "http://b4f19a2a78edbf40d68269381026cf4d.m.pipedream.net"
+	// url := "http://b4f19a2a78edbf40d68269381026cf4d.m.pipedream.net"
+	url := "http://AZSDL-WL5CG9036P64:8090"
 	
 	reader := bytes.NewReader(data)
 
@@ -49,6 +53,8 @@ func SendReq(data []byte) {
 	fmt.Println(req.Cookies())
 	fmt.Println(req.Header)
 
+	fmt.Println("************** Sending Data *****************")
+
 	// Send request
 	resp, err := client.Do(req)
 	if err != nil {
@@ -59,10 +65,11 @@ func SendReq(data []byte) {
 	fmt.Println("response Status:", resp.Status)
 	fmt.Println("response Headers:", resp.Header)
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal("Error reading body. ", err)
-	}
+	// body, err := ioutil.ReadAll(resp.Body)
+	// if err != nil {
+	// 	log.Fatal("Error reading body. ", err)
+	// }
 
-	fmt.Printf("%s\n", body)
+	// fmt.Println("************** Body is *****************")
+	// fmt.Printf("%s\n", body)
 }
